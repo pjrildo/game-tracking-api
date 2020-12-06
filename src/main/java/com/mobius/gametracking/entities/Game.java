@@ -10,6 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -30,10 +34,20 @@ public class Game implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'", timezone = "GMT")
 	private Date release;
 	
+	@ManyToOne
+	@JoinColumn(name = "publisher_id")
 	private Publisher publisher;
 	
+	@ManyToMany
+	@JoinTable(name = "tb_game_user", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> users = new HashSet<>();
+	
+	@ManyToMany
+	@JoinTable(name = "tb_game_gender", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "gender_id"))
 	private Set<Gender> genders = new HashSet<>();
+	
+	@ManyToMany
+	@JoinTable(name = "tb_game_plataform", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "plataform_id"))
 	private Set<Plataform> plataforms = new HashSet<>();
 	
 	public Game() {
@@ -68,6 +82,26 @@ public class Game implements Serializable {
 
 	public void setRelease(Date release) {
 		this.release = release;
+	}
+
+	public Publisher getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public Set<Gender> getGenders() {
+		return genders;
+	}
+
+	public Set<Plataform> getPlataforms() {
+		return plataforms;
 	}
 
 	@Override
