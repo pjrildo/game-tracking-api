@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_game")
@@ -28,6 +29,7 @@ public class Game implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	private String title;
 	private String description;
 	
 	@Column(name = "release_date")
@@ -38,6 +40,7 @@ public class Game implements Serializable {
 	@JoinColumn(name = "publisher_id")
 	private Publisher publisher;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "tb_game_user", joinColumns = @JoinColumn(name = "game_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> users = new HashSet<>();
@@ -54,8 +57,9 @@ public class Game implements Serializable {
 		
 	}
 	
-	public Game(Integer id, String description, Date release) {
+	public Game(Integer id, String title, String description, Date release) {
 		this.id = id;
+		this.title = title;
 		this.description = description;
 		this.release = release;
 	}
@@ -82,6 +86,14 @@ public class Game implements Serializable {
 
 	public void setRelease(Date release) {
 		this.release = release;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Publisher getPublisher() {

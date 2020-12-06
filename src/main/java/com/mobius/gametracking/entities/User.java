@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "tb_user")
 public class User implements Serializable {
@@ -27,7 +25,6 @@ public class User implements Serializable {
 	private String nickname;
 	private String password;
 	
-	@JsonIgnore
 	@ManyToMany(mappedBy = "users")
 	private Set<Game> games = new HashSet<>();
 	

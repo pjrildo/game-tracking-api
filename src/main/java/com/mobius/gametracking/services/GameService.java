@@ -29,6 +29,7 @@ public class GameService {
 	}
 	
 	public void updateEntity(Game entity, Game obj) {
+		entity.setTitle(obj.getTitle());
 		entity.setDescription(obj.getDescription());
 		entity.setPublisher(obj.getPublisher());
 		entity.setRelease(obj.getRelease());
